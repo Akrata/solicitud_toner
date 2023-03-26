@@ -21,14 +21,16 @@ void main() async {
     size: Size(500, 500),
     center: true,
     backgroundColor: Colors.transparent,
-    skipTaskbar: true,
+    // skipTaskbar: true,
     titleBarStyle: TitleBarStyle.normal,
   );
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.show();
-    windowManager.setMaximizable(false);
-    windowManager.setMinimizable(false);
-    windowManager.setResizable(false);
+    await windowManager.setMaximizable(false);
+    await windowManager.setMinimizable(false);
+    await windowManager.setResizable(false);
+    await windowManager.setTitle("Solicitar Toner");
+    await windowManager.setIcon("lib/assets/icono.ico");
     await windowManager.focus();
   });
 
