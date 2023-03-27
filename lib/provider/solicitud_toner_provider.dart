@@ -10,6 +10,8 @@ class SolicitudTonerProvider extends ChangeNotifier {
   final url =
       Uri.http(DB.dataBaseIp, "/api/collections/solicitud_toner/records");
 
+  String fechaGuardado = 'fechaUltimoPedido';
+
   SolicitudTonerProvider() {}
 
   realizarSolicitud(PedidoTonerResponse toner) async {

@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:solicitud_toner/models/sector_response_model.dart';
 import 'package:solicitud_toner/provider/sector_data_provider.dart';
+import 'package:solicitud_toner/provider/solicitud_toner_provider.dart';
 import 'package:solicitud_toner/provider/toner_data_provider.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -14,6 +15,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final sectorProvider = Provider.of<SectorDataProvider>(context);
     final tonerProvider = Provider.of<TonerDataProvider>(context);
+    final solicitudProvider = Provider.of<SolicitudTonerProvider>(context);
 
     return Scaffold(
         appBar: AppBar(
@@ -80,6 +82,21 @@ class SettingsScreen extends StatelessWidget {
                   SizedBox(
                     height: 50,
                   ),
+                  Text(
+                    "DbFecha -No modificar-",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                        hintText: solicitudProvider.fechaGuardado),
+                    onChanged: (value) =>
+                        solicitudProvider.fechaGuardado = value,
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.popAndPushNamed(context, 'home');
+                      },
+                      child: Text("Guardar"))
                   // Text(
                   //     "Su sector actual es : ${box.get("sectorID")} y su toner es ${box.get("tonerID")}")
                 ],

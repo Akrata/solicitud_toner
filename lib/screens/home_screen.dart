@@ -87,40 +87,37 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    height: 80,
-                    child: ElevatedButton.icon(
-                      onPressed: pidioHoy
-                          ? () {
-                              if (DateTime(
-                                    DateTime.now().day,
-                                    DateTime.now().month,
-                                    DateTime.now().year,
-                                  ) ==
-                                  box.get("fechaUltimoPedido")) {
-                                pidioHoy = true;
-                              }
-                              now = DateTime.now();
-                              String formattedDate =
-                                  DateFormat('dd/MM/yyyy - hh:mm').format(now);
-                              DateTime formattedOnlyDate =
-                                  DateTime(now.day, now.month, now.year);
+                  if (DateTime(
+                        DateTime.now().day,
+                        DateTime.now().month,
+                        DateTime.now().year,
+                      ) !=
+                      box.get(pedidoProvider.fechaGuardado))
+                    Container(
+                      height: 80,
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          now = DateTime.now();
+                          String formattedDate =
+                              DateFormat('dd/MM/yyyy - hh:mm').format(now);
+                          DateTime formattedOnlyDate =
+                              DateTime(now.day, now.month, now.year);
 
-                              box.put("ultimoPedidoFormateado", "");
-                              box.put("fechaUltimoPedido", "");
+                          box.put("ultimoPedidoFormateado", formattedDate);
+                          box.put(
+                              pedidoProvider.fechaGuardado, formattedOnlyDate);
 
-                              pedidoProvider.realizarSolicitud(
-                                PedidoTonerResponse(
-                                  sector: box.get("sectorID"),
-                                  toner: box.get("tonerID"),
-                                ),
-                              );
-                            }
-                          : null,
-                      icon: Icon(Icons.print),
-                      label: Text("Solicitar Toner de impresora"),
+                          pedidoProvider.realizarSolicitud(
+                            PedidoTonerResponse(
+                              sector: box.get("sectorID"),
+                              toner: box.get("tonerID"),
+                            ),
+                          );
+                        },
+                        icon: Icon(Icons.print),
+                        label: Text("Solicitar Toner de impresora"),
+                      ),
                     ),
-                  ),
                   Text(
                     "Su ultima solicitud fue : ${box.get("ultimoPedidoFormateado")}",
                     textAlign: TextAlign.center,
@@ -131,11 +128,11 @@ class HomeScreen extends StatelessWidget {
                         DateTime.now().month,
                         DateTime.now().year,
                       ) ==
-                      box.get("fechaUltimoPedido"))
+                      box.get(pedidoProvider.fechaGuardado))
                     Text(
                         style: TextStyle(color: Colors.red, fontSize: 25),
                         textAlign: TextAlign.center,
-                        "Ya realizó un pedido en el día de hoy, no vuelva a realizar otro, Soporte está al tanto de su solicitud, y lo entregará a la brevedad")
+                        "Ya realizó un pedido en el día de hoy, Soporte está al tanto de su solicitud, y lo entregará a la brevedad")
                 ],
               ),
             );
